@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firearms History Archive</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .hero-pattern {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .card-hover {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-5px) rotateX(5deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link {
+            position: relative;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--secondary);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -0.5rem;
+            top: 0;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 3px solid white;
+        }
+
+        .gun-card {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gun-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-gray-800">
+    <!-- Navigation Bar -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-lg fixed w-full top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        <i class="fas fa-shield-alt text-red-600 mr-2"></i>
+                     Saimon Firearms
+                    </h1>
+                </div>
+
+                <!-- Navigation Links -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#" class="nav-link text-gray-700 hover:text-red-600 font-medium" onclick="showPage('home')">Home</a>
+                        <a href="#" class="nav-link text-gray-700 hover:text-red-600 font-medium" onclick="showPage('history')">Gun History</a>
+                        <a href="#" class="nav-link text-gray-700 hover:text-red-600 font-medium" onclick="showPage('evolution')">Evolution</a>
+                        <a href="#" class="nav-link text-gray-700 hover:text-red-600 font-medium" onclick="showPage('gallery')">Gallery</a>
+                        <a href="#" class="nav-link text-gray-700 hover:text-red-600 font-medium" onclick="showPage('technology')">Technology</a>
+                    </div>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-gray-700 hover:text-red-600">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active pt-16">
+        <!-- Hero Section -->
+        <section class="hero-pattern min-h-screen flex items-center justify-center">
+            <div class="max-w-6xl mx-auto px-4 text-center">
+                <div class="bg-white/20 backdrop-blur-md rounded-3xl p-12 shadow-2xl">
+                    <h1 class="text-5xl md:text-7xl font-bold text-white mb-6">
+                        Journey Through<br>
+                        <span class="text-red-400">Firearms History</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-white mb-8 leading-relaxed">
+                        Explore the fascinating evolution of firearms from ancient times to modern marvels
+                    </p>
+                    <button onclick="showPage('history')" class="bg-red-600 hover:bg-red-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                        Discover History <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-20 bg-white/10">
+            <div class="max-w-6xl mx-auto px-4">
+                <h2 class="text-4xl font-bold text-center text-white mb-16">What You'll Discover</h2>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="card-hover bg-white rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-history text-red-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Historical Timeline</h3>
+                        <p class="text-gray-600">Trace the development of firearms from the 14th century to present day</p>
+                    </div>
+                    <div class="card-hover bg-white rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-cogs text-blue-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Technical Evolution</h3>
+                        <p class="text-gray-600">Understand the engineering breakthroughs that shaped modern firearms</p>
+                    </div>
+                    <div class="card-hover bg-white rounded-2xl p-8 text-center">
+                        <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-images text-green-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Visual Gallery</h3>
+                        <p class="text-gray-600">Explore high-quality images and detailed specifications of iconic weapons</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Gun History Page -->
+    <div id="history" class="page pt-20 min-h-screen bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 py-12">
+            <!-- Page Header -->
+            <div class="text-center mb-16">
+                <h1 class="text-5xl font-bold text-gray-800 mb-4">The History of Firearms</h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    From primitive hand cannons to sophisticated modern weapons, explore the remarkable journey of firearm development through the centuries.
+                </p>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="relative">
+                <!-- 14th Century -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="gun-card p-8">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h2 class="text-3xl font-bold text-gray-800 mb-4">14th Century: The Birth of Firearms</h2>
+                                <p class="text-gray-600 mb-4">
+                                    The first firearms emerged in China during the 14th century. These primitive weapons, known as "fire lances," 
+                                    were essentially tubes filled with gunpowder that could project flames and shrapnel.
+                                </p>
+                                <p class="text-gray-600">
+                                    The hand cannon, the first true firearm, appeared around 1320. It was a simple iron tube closed at one end, 
+                                    mounted on a wooden stock, and fired by applying a match to a touch hole.
+                                </p>
+                            </div>
+                            <div class="text-center">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/48ad007d-902e-440a-ae45-34f180221c54.png" alt="Medieval hand cannon from the 14th century with intricate metalwork and wooden stock" class="rounded-lg shadow-lg mx-auto" />
+                                <p class="text-sm text-gray-500 mt-2">Replica of a 14th century hand cannon</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 15th-16th Century -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="gun-card p-8">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div class="order-2 md:order-1">
+                                <h2 class="text-3xl font-bold text-gray-800 mb-4">15th-16th Century: The Matchlock Era</h2>
+                                <p class="text-gray-600 mb-4">
+                                    The matchlock mechanism, invented in the early 15th century, was the first mechanical firing system. 
+                                    It used a slow-burning match held in a clamp that would swing into the pan to ignite the powder.
+                                </p>
+                                <p class="text-gray-600">
+                                    This period saw the development of the arquebus, the first shoulder-fired firearm that could be aimed accurately. 
+                                    Firearms began to change military tactics and fortification designs.
+                                </p>
+                            </div>
+                            <div class="text-center order-1 md:order-2">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/82bfbd5a-ac33-4116-82b4-d9cc6544c2d6.png" alt="Ornate matchlock musket from the Renaissance period with detailed engravings and wooden stock" class="rounded-lg shadow-lg mx-auto" />
+                                <p class="text-sm text-gray-500 mt-2">16th century matchlock musket</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 17th Century -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="gun-card p-8">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h2 class="text-3xl font-bold text-gray-800 mb-4">17th Century: Flintlock Revolution</h2>
+                                <p class="text-gray-600 mb-4">
+                                    The flintlock mechanism, developed in the early 17th century, represented a major advancement. 
+                                    It used a piece of flint striking steel to create sparks, making firearms more reliable and weather-resistant.
+                                </p>
+                                <p class="text-gray-600">
+                                    The smoothbore musket became the standard infantry weapon, with the famous Brown Bess serving British forces 
+                                    for over a century. Pistols also became more common among cavalry officers.
+                                </p>
+                            </div>
+                            <div class="text-center">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/dac28895-0bad-448b-8b27-11f9d49a176e.png" alt="Elegant flintlock pistol from the 17th century with silver inlay and polished wood" class="rounded-lg shadow-lg mx-auto" />
+                                <p class="text-sm text-gray-500 mt-2">17th century flintlock pistol</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 19th Century -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="gun-card p-8">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div class="order-2 md:order-1">
+                                <h2 class="text-3xl font-bold text-gray-800 mb-4">19th Century: Industrial Revolution</h2>
+                                <p class="text-gray-600 mb-4">
+                                    The 19th century brought revolutionary changes with percussion caps, rifling, and breech-loading mechanisms. 
+                                    Samuel Colt's revolver (1836) and Richard Gatling's machine gun (1861) transformed warfare.
+                                </p>
+                                <p class="text-gray-600">
+                                    The American Civil War saw the transition from smoothbore muskets to rifled barrels and the introduction 
+                                    of repeating rifles. Metallic cartridges became standard, greatly improving reliability and rate of fire.
+                                </p>
+                            </div>
+                            <div class="text-center order-1 md:order-2">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f872f4d2-0f88-4eb0-a007-2af99fa093c3.png" alt="Colt Single Action Army revolver from the Wild West era with ivory grips and nickel plating" class="rounded-lg shadow-lg mx-auto" />
+                                <p class="text-sm text-gray-500 mt-2">Colt Single Action Army revolver</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 20th Century -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="gun-card p-8">
+                        <div class="grid md:grid-cols-2 gap-8 items-center">
+                            <div>
+                                <h2 class="text-3xl font-bold text-gray-800 mb-4">20th Century: Modern Warfare</h2>
+                                <p class="text-gray-600 mb-4">
+                                    The 20th century saw the development of semi-automatic and fully automatic firearms. 
+                                    John Browning's designs, including the M1911 pistol and Browning Automatic Rifle, became iconic.
+                                </p>
+                                <p class="text-gray-600">
+                                    World Wars accelerated firearms development, leading to assault rifles like the German StG44 and later 
+                                    the AK-47 and M16. Submachine guns, sniper rifles, and various machine guns became standard military equipment.
+                                </p>
+                            </div>
+                            <div class="text-center">
+                                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f6bf2ab5-a54a-4300-aad8-8f63e9a5d60d.png" alt="Modern assault rifle with polymer stock, optical sight, and tactical accessories" class="rounded-lg shadow-lg mx-auto" />
+                                <p class="text-sm text-gray-500 mt-2">Modern assault rifle platform</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Other Pages (Placeholders) -->
+    <div id="evolution" class="page pt-20 min-h-screen bg-gray-100">
+        <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+            <h1 class="text-5xl font-bold text-gray-800 mb-8">Firearm Evolution</h1>
+            <p class="text-xl text-gray-600 mb-12">Detailed analysis of technological advancements in firearms design</p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="gun-card p-8">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f46f4794-548f-454d-8e7d-3b1023c5f664.png" alt="Comparison of firearm mechanisms through history showing matchlock, flintlock, and percussion systems" class="rounded-lg mb-4" />
+                    <h3 class="text-2xl font-bold mb-4">Firing Mechanisms</h3>
+                    <p class="text-gray-600">From matchlock to electronic ignition systems</p>
+                </div>
+                <div class="gun-card p-8">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/db563ae9-22d8-47ba-bc0c-3f28fdca9893.png" alt="Evolution of ammunition from paper cartridges to modern brass cased rounds" class="rounded-lg mb-4" />
+                    <h3 class="text-2xl font-bold mb-4">Ammunition Development</h3>
+                    <p class="text-gray-600">The journey from loose powder to self-contained cartridges</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gallery" class="page pt-20 min-h-screen bg-white">
+        <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+            <h1 class="text-5xl font-bold text-gray-800 mb-8">Firearms Gallery</h1>
+            <p class="text-xl text-gray-600 mb-12">Visual showcase of iconic firearms throughout history</p>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="gun-card p-6">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1656ec7f-3962-44a3-aa7a-e7898a617295.png" alt="Colt Python revolver with polished nickel finish and walnut grips" class="rounded-lg mb-4" />
+                    <h3 class="text-xl font-bold mb-2">Classic Revolvers</h3>
+                    <p class="text-gray-600">Timeless wheel guns that defined an era</p>
+                </div>
+                <div class="gun-card p-6">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/c5d091f3-e6ff-4ad6-93d9-a8ab7ab245d8.png" alt="World War II era M1 Garand rifle with wood stock and en-bloc clip" class="rounded-lg mb-4" />
+                    <h3 class="text-xl font-bold mb-2">Military Rifles</h3>
+                    <p class="text-gray-600">Infantry weapons that shaped conflicts</p>
+                </div>
+                <div class="gun-card p-6">
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/d452ca55-63ae-43e8-8896-de931981ce76.png" alt="Modern sporting rifle with camouflage pattern and advanced optics" class="rounded-lg mb-4" />
+                    <h3 class="text-xl font-bold mb-2">Modern Sporting</h3>
+                    <p class="text-gray-600">Contemporary firearms for sport and defense</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="technology" class="page pt-20 min-h-screen bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4 py-12 text-center">
+            <h1 class="text-5xl font-bold text-gray-800 mb-8">Firearm Technology</h1>
+            <p class="text-xl text-gray-600 mb-12">Innovations that revolutionized firearms design and performance</p>
+            <div class="grid md:grid-cols-2 gap-8 text-left">
+                <div class="gun-card p-8">
+                    <h3 class="text-2xl font-bold mb-4">Materials Science</h3>
+                    <p class="text-gray-600 mb-4">Advancements from iron and wood to advanced polymers and alloys</p>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f8565e14-8612-4bb2-a763-de8a386881af.png" alt="Comparison of traditional wood and steel firearm with modern polymer and alloy construction" class="rounded-lg" />
+                </div>
+                <div class="gun-card p-8">
+                    <h3 class="text-2xl font-bold mb-4">Optics & Electronics</h3>
+                    <p class="text-gray-600 mb-4">From iron sights to laser rangefinders and smart scopes</p>
+                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/7c82e718-111e-4c9d-b0c6-0cc8dc38517d.png" alt="Modern rifle equipped with red dot sight, laser pointer, and tactical flashlight" class="rounded-lg" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">Firearms Archive</h3>
+                    <p class="text-gray-400">Preserving and presenting the rich history of firearms development and technology.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" onclick="showPage('home')" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" onclick="showPage('history')" class="text-gray-400 hover:text-white">Gun History</a></li>
+                        <li><a href="#" onclick="showPage('evolution')" class="text-gray-400 hover:text-white">Evolution</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube text-xl"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>© 2024 Firearms Archive. All rights reserved. Educational purposes only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation System
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Parallax effect for hero section
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-pattern');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.4}px)`;
+            }
+        });
+
+        // Mobile menu functionality
+        document.querySelector('.md-hiden button').addEventListener('click', function() {
+            const menu = document.querySelector('.md\\:block');
+            menu.classList.toggle('hidden');
+        });
+
+        // Image lazy loading and error handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                // Add loading lazy for better performance
+                img.loading = 'lazy';
+                
+                // Error handling
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML += '<div class="bg-gray-200 rounded-lg p-4 text-center"><i class="fas fa-image text-3xl text-gray-400 mb-2"></i><p class="text-gray-500">Image not available</p></div>';
+                };
+            });
+        });
+
+        // Interactive timeline animation
+        function animateTimeline() {
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'translateX(0)';
+                }, index * 200);
+            });
+        }
+
+        // Initialize animations when history page is shown
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    if (document.getElementById('history').classList.contains('active')) {
+                        animateTimeline();
+                    }
+                }
+            });
+        });
+
+        observer.observe(document.getElementById('history'), {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    </script>
+</body>
+</html>
+
+```
