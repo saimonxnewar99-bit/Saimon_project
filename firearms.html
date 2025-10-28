@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saimon - Ultimate FPS Gaming Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e2df11;
+            --secondary: #2ec4b6;
+            --accent: #ff3366;
+            --dark: #07075a;
+            --light: #f8f9fa;
+            --gradient: linear-gradient(135deg, #78d311, #ff3366);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #3e0464, #302b63, #040416);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(3, 3, 20, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(9, 202, 96, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            background: var(--gradient);
+            transform: translateY(-2px);
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(42, 42, 62, 0.95);
+            backdrop-filter: blur(15px);
+            min-width: 300px;
+            border-radius: 15px;
+            padding: 1rem;
+            top: 100%;
+            left: 0;
+            box-shadow: 0 10px 30px rgba(46, 12, 54, 0.3);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .game-category {
+            margin-bottom: 1rem;
+        }
+
+        .game-category h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .game-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .game-item {
+            background: rgba(5, 3, 39, 0.1);
+            padding: 0.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .game-item:hover {
+            transform: scale(1.05);
+            background: var(--gradient);
+        }
+
+        .game-item img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(37, 4, 80, 0.8), rgba(42, 42, 62, 0.8));
+            margin-top: 80px;
+            border-radius: 0 0 50px 50px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: var(--gradient);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(115, 13, 146, 0.4);
+        }
+
+        /* Games Showcase */
+        .games-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--secondary);
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .game-card {
+            background: rgba(81, 47, 204, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 1.5rem;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .game-desc {
+            color: #ccc;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating {
+            color: rgb(29, 5, 136);
+        }
+
+        .players {
+            color: var(--secondary);
+        }
+
+        /* Features */
+        .features {
+            padding: 4rem 2rem;
+            background: rgba(26, 26, 46, 0.8);
+            border-radius: 50px 50px 0 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(14, 1, 1, 0.1);
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: scale(1.05);
+            background: var(--gradient);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        /* About Me Section */
+        .about-me {
+            padding: 4rem 2rem;
+            text-align: center;
+            background: rgba(28, 28, 168, 0.8);
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .about-me h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--secondary);
+        }
+
+        .about-me p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 2px solid var(--primary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .social-links a {
+            color: var(--light);
+            font-size: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">SAIMON</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li class="dropdown">
+                    <a href="#games">FPS Games <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="game-category">
+                            <h4>Popular FPS Games</h4>
+                            <div class="game-list">
+                                <div class="game-item" onclick="showGameInfo('Call of Duty')">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/bb115cd8-0d19-4aa1-b8cd-7bb483d83211.png" alt="Call of Duty Modern Warfare gameplay screenshot">
+     <span> COD</span>
+                                </div>
+                                <div class="game-item" onclick="showGameInfo('CS:GO')">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/501e08a4-8fc2-4faa-afa9-faf6eb082add.png" alt="Counter Strike Global Offensive competitive match">
+                                    <span > CS:GO</span>
+                                </div>
+                                <div class="game-item" onclick="showGameInfo('Valorant')">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9af38120-b468-4de8-b19b-802c811fdea9.png" alt="Valorant character abilities and gameplay">
+                                    <span>Valorant</span>
+                                </div>
+                                <div class="game-item" onclick="showGameInfo('Fortnite')">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/a02b8d70-dd8f-4f84-951c-1f6d7b06e23d.png" alt="Fortnite battle royale colorful gameplay">
+                                    <span>Fortnite</span>
+                                </div>
+                                <div class="game-item" onclick="showGameInfo('Apex Legends')">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/2b46e2d4-baed-4e5b-9c21-e2d4558bace7.png" alt="Apex Legends character selection and combat">
+                                    <span>Apex Legend</span>
+                                </div>
+                                <div class="game-item" onclick="showGameInfo('R6 Siege')">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f09d106f-75d8-4354-8726-b808b2ba86f1.png" alt="Rainbow Six Siege tactical gameplay">
+                                    <span>R6 Siege</span>
+                                </div>
+                                <div class="game-item" onclick="showGameInfo('Insurgency')">
+                                    <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/32c8ffb7-9bc4-4f1f-ac26-7b5b42c30fd5.png" alt="Insurgency Sandstorm realistic combat">
+                                    <span>Insurgency</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            
+                <li><a href="aboutme.html">About Me</a></li>
+           
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <h1>Welcome to Saimon's Website</h1>
+        <p>Your ultimate destination for over 100+ premium FPS gaming experiences. Saimon brings you the most intense, action-packed first-person shooter games from around the world, all in one platform.</p>
+        <a href="#games" class="cta-button">Explore Games</a>
+    </section>
+
+    <!-- Games Showcase -->
+    <section class="games-section" id="games">
+        <h2 class="section-title">Featured FPS Games</h2>
+        <div class="games-grid">
+            <div class="game-card">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/174e260c-9173-4b1b-a521-0e7de90255ef.png" alt="Call of Duty Modern Warfare 3 intense multiplayer combat" class="game-image">
+
+                <div class="game-info">
+                    <h3 class="game-title">Call of Duty: Modern Warfare 3</h3>
+                    <p class="game-desc">Experience the latest installment in the iconic franchise with enhanced graphics, new maps, and intense multiplayer action.</p>
+                    <div class="game-stats">
+                        <span class="rating">★★★★★</span>
+                        <span class="players">6.9M Online</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/9e6cfb21-b28c-47f3-a97f-0575ee29772b.png" alt="Valorant esports championship match gameplay" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title">Valorant Champions</h3>
+                    <p class="game-desc">Strategic 5v5 character-based tactical FPS where precise gunplay meets unique agent abilities.</p>
+                    <div class="game-stats">
+                        <span class="rating">★★★★☆</span>
+                        <span class="players">1.8M Online</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-card">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1ee3b188-6750-435b-8c5a-d90524d63961.png" alt="Counter Strike 2 competitive match with professional players" class="game-image">
+                <div class="game-info">
+                    <h3 class="game-title" style="color: cornflowerblue;">Counter-Strike 2</h3>
+                    <p class="game-desc">The definitive competitive FPS experience with updated mechanics, better graphics, and refined gameplay.</p>
+                    <div class="game-stats">
+                        <span class="rating">★★★★★</span>
+                        <span class="players">3.1M Online</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
